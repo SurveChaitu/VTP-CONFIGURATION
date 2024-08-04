@@ -1,0 +1,104 @@
+
+
+    * Process of  VTP Configuration *
+
+👉 Step 1 : Configure all PC’s in one network (in a digram you can see we use 192.168.10.0 network)
+
+👉 Step 2 :On both switch first we create the VLAN’s  and  set the range of PC’s as per your VLAN network 
+
+⚡ Switch 1 (SERVER)
+
+Switch>en
+
+Switch#conf t
+
+Switch(config)#vlan 10
+
+Switch(config-vlan)#name IT
+
+Switch(config-vlan)#ex
+
+Switch(config)#vlan 20
+
+Switch(config-vlan)#name HR
+
+Switch(config-vlan)#ex
+
+Switch(config)#int range fa0/1-2 (SET THE PC RANGE AS PER YOUR VLAN NETWOK)
+
+Switch(config-if-range)#switchport access vlan 10 (GIVES THE PC’s ACCESS TO YOUR VLAN)
+
+Switch(config-if-range)#ex
+
+Switch(config)#int range fa0/3-4
+
+Switch(config-if-range)#switchport access vlan 20
+
+Switch(config-if-range)#ex
+
+
+
+👉 Step 3 : SET THE VTP PROTOCOL TO SERVER PC
+
+Switch(config)#vtp ?
+
+Switch(config)#vtp mode server (SELECT THE VTP MODE )
+
+Switch(config)#vtp domain IT (PUT THE VTP DOMAIN NAME )
+
+Switch(config)#vtp password 1234 (SET VTP PASSWORD)
+
+Switch(config)#int fa0/5 (DEFINE YOUR SWITCH INTERFACE)
+
+Switch(config-if)#switchport mode trunk (SWITCH TO SWITCH CONNECTION)
+
+
+
+⚡ Switch 2 (CLIENT)
+
+Switch>en
+
+Switch#conf t
+
+Switch(config)#vlan 10 (VLAN NUMBER)
+
+Switch(config-vlan)#name IT (VLAN NAME )
+
+Switch(config-vlan)#ex
+
+Switch(config)#vlan 20
+
+Switch(config-vlan)#name HR
+
+Switch(config-vlan)#ex
+
+Switch(config)#int range fa0/1-2  (SET THE PC RANGE AS PER YOUR VLAN NETWOK)
+
+Switch(config-if-range)#switchport access vlan 10 (GIVES THE PC’s ACCESS TO YOUR VLAN)
+
+Switch(config-if-range)#ex
+
+Switch(config)#int range fa0/3-4
+
+Switch(config-if-range)#switchport access vlan 20
+
+Switch(config-if-range)#ex
+
+
+
+👉 Step 4 : SET THE VTP PROTOCOL TO CLIENT PC
+
+Switch(config)#vtp ?  (SELECT THE VTP  MODE AS PER YOUR NEED)
+
+Switch(config)#vtp mode client
+
+Switch(config)#vtp domain IT (SET VTP DOMAIN NAME )
+
+Switch(config)#vtp password 1234 
+
+Switch(config)#ex
+
+
+ONLY SAME VLAN TO VLAN NETWORK CONNECTION SUCCESSFUL.
+
+DIFFERENT VLAN CONNECTION FAIL.
